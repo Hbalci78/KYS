@@ -1,0 +1,5 @@
+.firebase/
+node_modules/
+*.log
+.env*
+public/templates/*.xlsx
