@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KHSL Risk Analizi</title>
+  <link rel="stylesheet" href="./assets/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">İL SAĞLIK MÜDÜRLÜĞÜ</div>
+      <h1>KONYA HALK SAĞLIĞI LABORATUVARI</h1>
+      <p>P.16-FR.01 Risk Analiz Formu Web Arayüzü</p>
+    </div>
+    <div class="top-actions">
+      <span id="saveState" class="status-pill">Yerel çalışma</span>
+      <button id="loadTemplateBtn" class="secondary">Excel şablonu seç</button>
+      <input id="templateFile" type="file" accept=".xlsx" hidden>
+      <button id="exportBtn" class="primary">Excel indir</button>
+    </div>
+  </header>
+  <main>
+    <section class="card metadata-grid">
+      <label>Risk Analizi Konusu ve Hedefi<textarea id="analysisSubject" rows="3"></textarea></label>
+      <label>Değerlendirme Tarihi<input id="assessmentDate" type="date"></label>
+      <label>Değerlendirme Ekibi<textarea id="assessmentTeam" rows="3"></textarea></label>
+    </section>
+    <section class="kpi-grid">
+      <article><span>Toplam Risk</span><strong id="kpiTotal">0</strong></article>
+      <article><span>Orta Risk</span><strong id="kpiMedium">0</strong></article>
+      <article><span>Kabul Edilemez</span><strong id="kpiHigh">0</strong></article>
+      <article><span>Açık Faaliyet</span><strong id="kpiOpen">0</strong></article>
+      <article><span>Geciken Faaliyet</span><strong id="kpiLate">0</strong></article>
+    </section>
+    <section class="card toolbar">
+      <div class="toolbar-group">
+        <input id="searchInput" type="search" placeholder="Risk kodu, süreç veya tanım ara">
+        <select id="levelFilter"><option value="">Tüm risk düzeyleri</option><option>Kabul Edilebilir</option><option>Orta</option><option>Kabul Edilemez</option></select>
+        <select id="statusFilter"><option value="">Tüm durumlar</option><option>Başlanmadı</option><option>Devam Ediyor</option><option>İzlemede</option><option>Tamamlandı</option><option>Etkisiz</option></select>
+      </div>
+      <button id="addRiskBtn" class="secondary">Yeni risk kaydı</button>
+    </section>
+    <section id="riskList" class="risk-list"></section>
+  </main>
+  <dialog id="riskDialog">
+    <form id="riskForm" method="dialog">
+      <div class="dialog-head"><div><div class="eyebrow">P.16-FR.01</div><h2 id="dialogTitle">Risk Kaydı</h2></div><button type="button" id="closeDialog" class="icon-button">×</button></div>
+      <input id="editIndex" type="hidden"><div id="formFields" class="form-grid"></div>
+      <div class="dialog-actions"><button type="button" id="deleteRiskBtn" class="danger">Kaydı sil</button><span class="spacer"></span><button type="button" id="cancelRiskBtn" class="secondary">Vazgeç</button><button type="submit" class="primary">Kaydet</button></div>
+    </form>
+  </dialog>
+  <template id="riskCardTemplate"><article class="risk-card"><div class="risk-head"><div><strong class="risk-code"></strong><span class="risk-process"></span></div><div class="badges"><span class="badge level"></span><span class="badge status"></span></div></div><h3 class="risk-title"></h3><p class="risk-effects"></p><div class="risk-metrics"><span>Başlangıç <b class="initial-score"></b></span><span>Hedef <b class="target-score"></b></span><span>Gerçekleşen <b class="actual-score"></b></span><span>Termin <b class="due-date"></b></span></div><div class="risk-actions"><button class="secondary edit-button">Düzenle</button></div></article></template>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script type="module" src="./assets/app.js"></script>
+</body>
+</html>
