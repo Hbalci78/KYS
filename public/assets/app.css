@@ -1,0 +1,61 @@
+* { box-sizing: border-box; }
+:root { font-family: Arial, Helvetica, sans-serif; color: #1f2937; background: #f3f4f6; }
+body { margin: 0; }
+.topbar { background: white; border-bottom: 1px solid #d1d5db; padding: 20px 28px; display: flex; justify-content: space-between; gap: 24px; align-items: center; }
+.topbar h1 { font-size: 20px; margin: 2px 0; }
+.topbar p { margin: 0; color: #6b7280; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #6b7280; }
+.top-actions, .toolbar, .toolbar-group, .dialog-actions, .risk-head, .risk-metrics { display: flex; gap: 10px; align-items: center; }
+main { max-width: 1500px; margin: 24px auto; padding: 0 24px 48px; }
+.card, .risk-card, .kpi-grid article { background: white; border: 1px solid #d1d5db; border-radius: 10px; }
+.card { padding: 18px; }
+.metadata-grid { display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 16px; }
+.metadata-grid label, .form-grid label { font-size: 12px; font-weight: 700; color: #374151; }
+input, textarea, select { width: 100%; margin-top: 6px; border: 1px solid #9ca3af; border-radius: 6px; padding: 9px 10px; font: inherit; background: white; }
+.kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 16px 0; }
+.kpi-grid article { padding: 14px; }
+.kpi-grid span { display: block; font-size: 12px; color: #6b7280; }
+.kpi-grid strong { font-size: 26px; }
+.toolbar { justify-content: space-between; margin-bottom: 16px; }
+.toolbar input { min-width: 300px; }
+.risk-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.risk-card { padding: 16px; }
+.risk-head { justify-content: space-between; }
+.risk-code { font-size: 16px; }
+.risk-process { display: block; color: #6b7280; font-size: 12px; }
+.badges { display: flex; gap: 6px; }
+.badge { border: 1px solid #9ca3af; border-radius: 999px; padding: 3px 8px; font-size: 11px; }
+.level.medium { border-color: #b45309; color: #92400e; }
+.level.high { border-color: #b91c1c; color: #991b1b; }
+.level.low { border-color: #047857; color: #065f46; }
+.risk-card h3 { font-size: 15px; margin: 14px 0 6px; }
+.risk-card p { font-size: 13px; color: #4b5563; min-height: 38px; }
+.risk-metrics { border-top: 1px solid #e5e7eb; padding-top: 12px; flex-wrap: wrap; }
+.risk-metrics span { font-size: 12px; color: #6b7280; }
+.risk-actions { text-align: right; margin-top: 12px; }
+button { border: 1px solid transparent; border-radius: 6px; padding: 9px 13px; font-weight: 700; cursor: pointer; }
+.primary { background: #111827; color: white; }
+.secondary { background: white; color: #111827; border-color: #9ca3af; }
+.danger { background: white; color: #991b1b; border-color: #b91c1c; }
+.status-pill { font-size: 12px; border: 1px solid #9ca3af; border-radius: 999px; padding: 5px 9px; }
+.icon-button { background: none; font-size: 26px; padding: 2px 8px; }
+dialog { width: min(1280px, 96vw); border: 0; border-radius: 12px; padding: 0; box-shadow: 0 24px 80px rgba(0,0,0,.25); }
+dialog::backdrop { background: rgba(17,24,39,.55); }
+dialog form { padding: 20px; }
+.dialog-head { display: flex; justify-content: space-between; align-items: start; border-bottom: 1px solid #d1d5db; padding-bottom: 12px; }
+.form-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 18px 0; }
+.form-grid label.wide { grid-column: span 2; }
+.form-grid label.full { grid-column: 1 / -1; }
+.form-grid textarea { min-height: 88px; resize: vertical; }
+.dialog-actions { border-top: 1px solid #d1d5db; padding-top: 14px; }
+.spacer { flex: 1; }
+.empty { background: white; border: 1px dashed #9ca3af; border-radius: 10px; padding: 40px; text-align: center; color: #6b7280; }
+@media (max-width: 900px) {
+  .topbar { display: block; }
+  .top-actions { margin-top: 14px; flex-wrap: wrap; }
+  .metadata-grid, .kpi-grid, .risk-list, .form-grid { grid-template-columns: 1fr; }
+  .form-grid label.wide { grid-column: span 1; }
+  .toolbar { display: block; }
+  .toolbar-group { display: grid; margin-bottom: 10px; }
+  .toolbar input { min-width: 0; }
+}
