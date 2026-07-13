@@ -11,10 +11,9 @@ Sunum; Madde 8.1–8.9 yapısını, KHSL doküman hiyerarşisini, doküman ve ka
 
 Toplam 23 slayttır. Eğitim kazanımları, süreç şemaları, risk odaklı örnek, TÜRKAK denetçi bakışı, kısa değerlendirme ve cevap anahtarı içerir.
 
-## Dosyalar
+## Çıktı
 
-- `create_khsl_management_orientation.js`: PptxGenJS kaynak dosyası.
-- PowerPoint çıktısı çalışma ortamında `KHSL_ORYANTASYON_EGITIMI_YONETIM_SISTEMI_GEREKLILIKLERI_13.07.2026.pptx` adıyla üretilmiştir.
+PowerPoint dosyası ChatGPT çalışma ortamında `KHSL_ORYANTASYON_EGITIMI_YONETIM_SISTEMI_GEREKLILIKLERI_13.07.2026.pptx` adıyla oluşturulmuştur. Bu dizin sunumun kurumsal kapsamını, dayanaklarını ve KYS bağlantılarını kayıt altına alır.
 
 ## Ana KYS bağlantıları
 
