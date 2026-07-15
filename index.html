@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Konya Halk Sağlığı Laboratuvarı Kalite Yönetim Sistemi çalışma paneli">
+  <title>KHSL · Kalite Yönetim Sistemi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#anasayfa" aria-label="KHSL ana sayfa">
+        <span class="brand-mark">KH</span>
+        <span><strong>KHSL</strong><small>Kalite Yönetim Sistemi</small></span>
+      </a>
+
+      <nav class="nav" aria-label="Ana menü">
+        <a class="nav-link active" href="#anasayfa" data-section="anasayfa"><span>⌂</span>Ana ekran</a>
+        <a class="nav-link" href="#dokumanlar" data-section="dokumanlar"><span>▤</span>Dokümanlar</a>
+        <a class="nav-link" href="#surecler" data-section="surecler"><span>◇</span>Süreçler</a>
+        <a class="nav-link" href="#denetim" data-section="denetim"><span>✓</span>Denetim</a>
+        <a class="nav-link" href="#egitim" data-section="egitim"><span>◫</span>Eğitimler</a>
+      </nav>
+
+      <div class="sidebar-note">
+        <span class="status-dot"></span>
+        <div><strong>Kontrollü alan</strong><small>Güncel KYS kayıtları esas alınır.</small></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-button" id="menuButton" aria-label="Menüyü aç">☰</button>
+        <label class="search">
+          <span>⌕</span>
+          <input id="globalSearch" type="search" placeholder="Doküman kodu veya süreç ara…" autocomplete="off">
+          <kbd>Ctrl K</kbd>
+        </label>
+        <div class="topbar-actions">
+          <div class="today"><small>Bugün</small><strong id="today"></strong></div>
+          <button class="profile" aria-label="Kullanıcı profili">HB</button>
+        </div>
+      </header>
+
+      <section class="content" id="anasayfa">
+        <div class="hero">
+          <div>
+            <span class="eyebrow">KALİTE YÖNETİCİSİ ÇALIŞMA ALANI</span>
+            <h1>Sistemi görünür,<br>kararları izlenebilir kılın.</h1>
+            <p>Doküman, risk, denetim ve eğitim süreçlerini tek bakışta yönetin.</p>
+          </div>
+          <div class="hero-badge">
+            <span>TS EN ISO/IEC</span>
+            <strong>17025</strong>
+            <small>2017</small>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <article class="metric">
+            <div class="metric-top"><span class="metric-icon blue">▤</span><span class="trend">Güncel</span></div>
+            <strong>214</strong><span>Kontrollü doküman</span>
+          </article>
+          <article class="metric">
+            <div class="metric-top"><span class="metric-icon amber">◇</span><span class="trend warning">İzleniyor</span></div>
+            <strong>6</strong><span>Açık risk kaydı</span>
+          </article>
+          <article class="metric">
+            <div class="metric-top"><span class="metric-icon green">✓</span><span class="trend">Tamamlandı</span></div>
+            <strong>92%</strong><span>Faaliyet gerçekleşme</span>
+          </article>
+          <article class="metric">
+            <div class="metric-top"><span class="metric-icon violet">◫</span><span class="trend">2026</span></div>
+            <strong>12</strong><span>Planlı eğitim</span>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel wide" id="dokumanlar">
+            <div class="panel-heading">
+              <div><span class="eyebrow">DOKÜMAN KONTROLÜ</span><h2>Hızlı erişim</h2></div>
+              <button class="text-button" type="button">Tümünü görüntüle →</button>
+            </div>
+            <div class="document-list" id="documentList">
+              <a class="document-row" href="#">
+                <span class="doc-code">KEK</span><span class="doc-info"><strong>Kalite El Kitabı</strong><small>Rev.05 · 03.04.2026</small></span><span class="doc-status current">Yürürlükte</span><span class="arrow">›</span>
+              </a>
+              <a class="document-row" href="#">
+                <span class="doc-code">P.14</span><span class="doc-info"><strong>Dokümanların Kontrolü Prosedürü</strong><small>Doküman ve revizyon yönetimi</small></span><span class="doc-status current">Yürürlükte</span><span class="arrow">›</span>
+              </a>
+              <a class="document-row" href="#">
+                <span class="doc-code">P.16</span><span class="doc-info"><strong>Risk ve Fırsatların Yönetimi</strong><small>Risk analizi ve izleme kayıtları</small></span><span class="doc-status review">İzleme</span><span class="arrow">›</span>
+              </a>
+              <a class="document-row" href="#">
+                <span class="doc-code">P.19</span><span class="doc-info"><strong>İç Tetkik Prosedürü</strong><small>Tetkik planı ve objektif deliller</small></span><span class="doc-status current">Yürürlükte</span><span class="arrow">›</span>
+              </a>
+            </div>
+            <p class="empty-state" id="emptyState" hidden>Aramanızla eşleşen kayıt bulunamadı.</p>
+          </section>
+
+          <section class="panel" id="denetim">
+            <div class="panel-heading">
+              <div><span class="eyebrow">DENETİM HAZIRLIĞI</span><h2>Kontrol durumu</h2></div>
+              <span class="score">8.6</span>
+            </div>
+            <div class="progress-ring" style="--value: 86">
+              <div><strong>86%</strong><span>Hazır</span></div>
+            </div>
+            <ul class="check-list">
+              <li><span class="check done">✓</span><div><strong>Doküman güncelliği</strong><small>Kontrol tamamlandı</small></div></li>
+              <li><span class="check done">✓</span><div><strong>Yetki kayıtları</strong><small>Liste eşleştirmesi uygun</small></div></li>
+              <li><span class="check pending">!</span><div><strong>Faaliyet kanıtları</strong><small>2 kayıt doğrulama bekliyor</small></div></li>
+            </ul>
+          </section>
+
+          <section class="panel" id="surecler">
+            <div class="panel-heading">
+              <div><span class="eyebrow">SÜREÇ YÖNETİMİ</span><h2>Öncelikli işler</h2></div>
+              <span class="count">4 görev</span>
+            </div>
+            <div class="task-list">
+              <label class="task"><input type="checkbox"><span></span><div><strong>Risk kayıtlarını gözden geçir</strong><small>Bugün · P.16</small></div><em class="priority high">Yüksek</em></label>
+              <label class="task"><input type="checkbox"><span></span><div><strong>Yetki listesi karşılaştırması</strong><small>16 Temmuz · P.15</small></div><em class="priority medium">Orta</em></label>
+              <label class="task"><input type="checkbox"><span></span><div><strong>İç tetkik kanıtlarını sınıflandır</strong><small>18 Temmuz · P.19</small></div><em class="priority medium">Orta</em></label>
+              <label class="task"><input type="checkbox"><span></span><div><strong>Eğitim kayıtlarını arşivle</strong><small>20 Temmuz · P.02</small></div><em class="priority low">Planlı</em></label>
+            </div>
+          </section>
+
+          <section class="panel" id="egitim">
+            <div class="panel-heading">
+              <div><span class="eyebrow">EĞİTİM</span><h2>Son materyal</h2></div>
+            </div>
+            <a class="training-card" href="egitimler/oryantasyon/yonetim-sistemi-gereklilikleri/README.md">
+              <span class="training-number">38<small>slayt</small></span>
+              <div><strong>Yönetim Sistemi Gereklilikleri</strong><p>TS EN ISO/IEC 17025:2017 · Oryantasyon</p><span>Materyali görüntüle →</span></div>
+            </a>
+          </section>
+        </div>
+      </section>
+
+      <footer>
+        <span>Konya Halk Sağlığı Laboratuvarı · Kalite Birimi</span>
+        <span>Kontrollü dokümanların güncel nüshaları esas alınır.</span>
+      </footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
