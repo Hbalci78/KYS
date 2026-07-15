@@ -1,37 +1,39 @@
 <div align="center">
 
 # KONYA HALK SAĞLIĞI LABORATUVARI
+## Kalite Yönetim Sistemi
 
-### Kalite Yönetim Sistemi
+**Kalite yöneticisi çalışma alanı; doküman, risk, denetim ve eğitim süreçlerinin bütünleşik görünümü.**
 
-[![Standart](https://img.shields.io/badge/TS%20EN%20ISO%2FIEC-17025%3A2017-1f4e79?style=flat-square)](#)
-[![Birim](https://img.shields.io/badge/Birim-Kalite%20Yönetimi-4b5563?style=flat-square)](#)
-[![Durum](https://img.shields.io/badge/Durum-Aktif-2e7d32?style=flat-square)](#)
-
-**Kurumsal eğitim materyalleri ve kalite yönetim sistemi uygulamaları**
+[![KYS Paneli](https://img.shields.io/badge/KYS%20Paneli-Ana%20Ekranı%20Aç-173659?style=for-the-badge)](index.html)
 
 </div>
 
 ---
 
-## Depo kapsamı
+## Proje
 
-Bu depo, Konya Halk Sağlığı Laboratuvarı kalite yönetim sistemi kapsamında hazırlanan kontrollü çalışma ve eğitim materyallerinin düzenli biçimde sunulması amacıyla kullanılmaktadır.
+Bu depo, Konya Halk Sağlığı Laboratuvarı Kalite Yönetim Sisteminin dijital çalışma alanı ve kurumsal eğitim materyallerini içerir.
+
+### Ana ekran özellikleri
+
+- Doküman kodu ve süreç bazlı hızlı arama
+- Kontrollü dokümanlara doğrudan erişim alanı
+- Risk, faaliyet ve denetim hazırlık göstergeleri
+- Kalite yöneticisi öncelikli iş listesi
+- Eğitim materyalleri bağlantıları
+- Masaüstü, tablet ve telefon uyumlu tasarım
+
+## Dosya yapısı
+
+| Dosya / Klasör | Açıklama |
+|---|---|
+| [`index.html`](index.html) | KYS ana ekranı |
+| [`styles.css`](styles.css) | Kurumsal tasarım sistemi |
+| [`app.js`](app.js) | Arama ve kullanıcı etkileşimleri |
+| [`egitimler/`](egitimler/) | Kurumsal eğitim materyalleri |
 
 > **Kontrollü doküman uyarısı:** Yürürlük, revizyon ve güncellik değerlendirmesinde laboratuvarın onaylı KYS dokümantasyonu esas alınır.
-
-## Eğitim materyalleri
-
-| Eğitim | Kapsam | Erişim |
-|---|---|---|
-| KHSL Oryantasyon Eğitimi | TS EN ISO/IEC 17025:2017 yönetimsel şartları ve Kalite Birimi koordinasyonu | [Eğitim sayfasını aç](egitimler/oryantasyon/yonetim-sistemi-gereklilikleri/README.md) |
-
-## Kullanım ilkeleri
-
-- Materyaller yalnız tanımlanan eğitim ve bilgilendirme amacıyla kullanılır.
-- Doküman kodu, revizyon bilgisi ve yayın tarihi kontrol edilmeden çıktı kullanılmaz.
-- PDF çıktılar okuma ve yazdırma; kaynak dosyalar kontrollü güncelleme amacıyla saklanır.
-- Güncelliğini yitiren nüshalar kullanım alanlarından kaldırılır.
 
 ---
 
