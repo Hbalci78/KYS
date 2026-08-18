@@ -55,3 +55,17 @@ jobs:
           name: KHSL-KYS-v107-shell
           path: android-v107/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+      - name: Prepare APK signing tools
+        run: |
+          mkdir -p signing-tools/lib
+          cp "$ANDROID_HOME/build-tools/35.0.0/apksigner" signing-tools/
+          cp "$ANDROID_HOME/build-tools/35.0.0/lib/apksigner.jar" signing-tools/lib/
+          chmod +x signing-tools/apksigner
+
+      - name: Upload APK signing tools
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apksigner-35
+          path: signing-tools
+          if-no-files-found: error
