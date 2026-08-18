@@ -1,0 +1,52 @@
+name: Build KHSL KYS APK
+
+on:
+  push:
+    branches: [ apk-build-20260818 ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract APK source
+        run: |
+          rm -rf khsl-apk-src
+          mkdir khsl-apk-src
+          unzip -q apk/KHSL_KYS_APK_SOURCE.zip -d khsl-apk-src
+          ls -la khsl-apk-src
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK packages
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-35" "build-tools;35.0.0" "platform-tools"
+
+      - name: Set up Gradle 8.9
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Build debug APK
+        working-directory: khsl-apk-src/KHSL_KYS_APK
+        run: gradle --no-daemon :app:assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: KHSL-KYS-debug-apk
+          path: khsl-apk-src/KHSL_KYS_APK/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
