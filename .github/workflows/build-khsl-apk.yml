@@ -3,6 +3,8 @@ name: Build KHSL KYS APK
 on:
   push:
     branches: [ apk-build-20260818 ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
