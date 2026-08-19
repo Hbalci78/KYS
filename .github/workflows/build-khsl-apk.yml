@@ -1,0 +1,95 @@
+name: Build KHSL KYS APK
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate mobile JavaScript
+        run: node --check mobile/app.js
+
+      - name: Validate camera capture contract
+        run: |
+          grep -q 'accept="image/\*"' mobile/index.html
+          grep -q 'capture="environment"' mobile/index.html
+
+      - name: Create Android project
+        run: |
+          rm -rf android
+          npx cap add android
+          npx cap sync android
+
+      - name: Apply KHSL launcher icons
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          src = Image.open('mobile/icons/kys-icon-512.png').convert('RGBA')
+          sizes = {'mdpi':48,'hdpi':72,'xhdpi':96,'xxhdpi':144,'xxxhdpi':192}
+          for density, size in sizes.items():
+              out = Path(f'android/app/src/main/res/mipmap-{density}')
+              out.mkdir(parents=True, exist_ok=True)
+              icon = src.resize((size,size), Image.Resampling.LANCZOS)
+              icon.save(out/'ic_launcher.png')
+              icon.save(out/'ic_launcher_round.png')
+          PY
+
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Re-apply launcher icons
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          src = Image.open('mobile/icons/kys-icon-512.png').convert('RGBA')
+          sizes = {'mdpi':48,'hdpi':72,'xhdpi':96,'xxhdpi':144,'xxxhdpi':192}
+          for density, size in sizes.items():
+              out = Path(f'android/app/src/main/res/mipmap-{density}')
+              out.mkdir(parents=True, exist_ok=True)
+              icon = src.resize((size,size), Image.Resampling.LANCZOS)
+              icon.save(out/'ic_launcher.png')
+              icon.save(out/'ic_launcher_round.png')
+          PY
+
+      - name: Build debug APK
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew assembleDebug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: KHSL-KYS-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
