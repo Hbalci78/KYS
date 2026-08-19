@@ -1,0 +1,12 @@
+{
+  "appId": "tr.gov.saglik.khsl.kys",
+  "appName": "KHSL KYS",
+  "webDir": "mobile",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#f4f7f9"
+  }
+}
