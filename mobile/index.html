@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0e2a48">
+  <meta name="description" content="Konya Halk Sağlığı Laboratuvarı KYS mobil belge ve form uygulaması">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="KHSL KYS">
+  <title>KHSL KYS</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/kys-icon-192.png">
+  <link rel="apple-touch-icon" href="icons/kys-icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img src="icons/kys-icon-192.png" alt="" class="brand-icon">
+        <div>
+          <strong>KHSL KYS</strong>
+          <small>Konya Halk Sağlığı Laboratuvarı</small>
+        </div>
+      </div>
+      <button class="icon-button" id="settingsButton" aria-label="Ayarlar" title="Ayarlar">⚙</button>
+    </header>
+
+    <div id="connectionBanner" class="connection-banner" hidden></div>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <main class="content">
+      <section class="screen active" id="screen-home" data-screen="home">
+        <div class="page-heading compact">
+          <span class="eyebrow">MOBİL KYS ÇALIŞMA ALANI</span>
+          <h1>Ne yapmak istiyorsunuz?</h1>
+        </div>
+
+        <div class="quick-grid">
+          <button class="quick-action primary" data-go="scan">
+            <span class="quick-icon">▣</span>
+            <strong>Belge Tara</strong>
+            <small>Kamera → PDF → Drive</small>
+          </button>
+          <button class="quick-action" data-go="forms">
+            <span class="quick-icon">✎</span>
+            <strong>Form Doldur</strong>
+            <small>KYS formları ve kanıtlar</small>
+          </button>
+          <button class="quick-action" data-go="documents">
+            <span class="quick-icon">⌕</span>
+            <strong>Doküman Ara</strong>
+            <small>SSOT kontrollü kaynaklar</small>
+          </button>
+        </div>
+
+        <div class="summary-grid">
+          <article class="summary-card">
+            <span>Taslaklar</span>
+            <strong id="draftCount">0</strong>
+            <small>Bu cihazda açık form</small>
+          </article>
+          <article class="summary-card">
+            <span>Son yüklemeler</span>
+            <strong id="uploadCount">0</strong>
+            <small>Drive / bekleyen kayıt</small>
+          </article>
+          <article class="summary-card link-card" id="openUodiCard" role="button" tabindex="0">
+            <span>UODİ / DF</span>
+            <strong>Takip</strong>
+            <small>P.13-LS.01'i aç</small>
+          </article>
+          <article class="summary-card">
+            <span>Drive</span>
+            <strong id="driveState">Bağlı değil</strong>
+            <small id="driveStateDetail">Ayarlar’dan bağlantıyı yapılandırın</small>
+          </article>
+        </div>
+
+        <section class="panel recent-panel">
+          <div class="panel-title">
+            <div><span class="eyebrow">İZLENEBİLİRLİK</span><h2>Son işlemler</h2></div>
+            <button class="text-button danger" id="clearHistoryButton" type="button">Temizle</button>
+          </div>
+          <div id="recentActivity" class="activity-list"></div>
+        </section>
+      </section>
+
+      <section class="screen" id="screen-scan" data-screen="scan">
+        <div class="page-heading">
+          <span class="eyebrow">TARA / YÜKLE</span>
+          <h1>Belgeyi kamerayla yakalayın</h1>
+          <p>Çekilen sayfalar tek PDF’e dönüştürülür. Hassas görseller kayıt tamamlandığında bellekte temizlenir.</p>
+        </div>
+
+        <div class="capture-actions">
+          <label class="capture-button primary">
+            <span>📷</span><strong>Kamera</strong><small>Arka kamera</small>
+            <input id="cameraInput" type="file" accept="image/*" capture="environment" multiple hidden>
+          </label>
+          <label class="capture-button">
+            <span>▧</span><strong>Galeriden / Dosyadan</strong><small>Birden çok sayfa</small>
+            <input id="galleryInput" type="file" accept="image/*" multiple hidden>
+          </label>
+        </div>
+
+        <div id="scanEmpty" class="empty-box">
+          <strong>Henüz sayfa yok</strong>
+          <span>Belgeyi fotoğraflayın veya galeriden seçin.</span>
+        </div>
+        <div id="scanPages" class="scan-pages"></div>
+
+        <section class="panel form-panel">
+          <div class="panel-title">
+            <div><span class="eyebrow">BELGE METADATASI</span><h2>Kayıt bilgileri</h2></div>
+            <span id="scanPdfStatus" class="status-pill neutral">PDF bekliyor</span>
+          </div>
+          <div class="field-grid">
+            <label class="field"><span>Belge Kodu</span><input id="scanCode" autocomplete="off" placeholder="Örn. P.14-FR.01"></label>
+            <label class="field"><span>Belge Türü</span>
+              <select id="scanType">
+                <option>Form Kaydı</option><option>Uygunsuzluk Kanıtı</option><option>Kalibrasyon Sertifikası</option>
+                <option>Dış Kaynaklı Doküman</option><option>Rapor</option><option>Yazışma</option><option>Diğer Kayıt</option>
+              </select>
+            </label>
+            <label class="field"><span>Tarih</span><input id="scanDate" type="date"></label>
+            <label class="field"><span>Sorumlu</span><input id="scanResponsible" autocomplete="name"></label>
+            <label class="field"><span>Birim</span><input id="scanUnit" autocomplete="organization"></label>
+            <label class="field"><span>Gizlilik</span>
+              <select id="scanConfidentiality">
+                <option>Kurum İçi</option><option>Gizli</option><option>Hassas / Kişisel Veri</option><option>Genel</option>
+              </select>
+            </label>
+            <label class="field full"><span>Açıklama</span><textarea id="scanDescription" rows="3" placeholder="Kısa ve izlenebilir kayıt açıklaması"></textarea></label>
+            <label class="field full"><span>Forma Bağla (isteğe bağlı)</span><select id="scanFormLink"><option value="">Bağlantı yok</option></select></label>
+          </div>
+          <div class="action-row sticky-actions">
+            <button class="button secondary" id="scanPreviewButton" disabled>PDF Önizle</button>
+            <button class="button primary" id="scanSaveButton" disabled>Drive’a Kaydet</button>
+          </div>
+          <p class="microcopy">Kontrollü master dokümanların üzerine yazılmaz. Tarama sonucu yeni kayıt olarak saklanır.</p>
+        </section>
+      </section>
+
+      <section class="screen" id="screen-forms" data-screen="forms">
+        <div class="page-heading">
+          <span class="eyebrow">FORMLAR</span>
+          <h1>Mobil form merkezi</h1>
+          <p>Form şablonu değişmez; uygulama doldurulmuş kayıt ve PDF çıktısı üretir.</p>
+        </div>
+        <label class="search-box"><span>⌕</span><input id="formSearch" type="search" placeholder="Form kodu veya adı ara"></label>
+        <div class="segment">
+          <button class="segment-button active" data-form-view="catalog">Formlar</button>
+          <button class="segment-button" data-form-view="drafts">Taslaklarım <span id="draftBadge">0</span></button>
+        </div>
+        <div id="formCatalog" class="card-list"></div>
+        <div id="draftList" class="card-list" hidden></div>
+      </section>
+
+      <section class="screen" id="screen-form-fill" data-screen="form-fill">
+        <div class="subnav">
+          <button class="back-button" data-go="forms">← Formlar</button>
+          <span id="formHeaderCode"></span>
+        </div>
+        <div class="page-heading compact">
+          <span class="eyebrow" id="formRevision"></span>
+          <h1 id="formTitle">Form</h1>
+          <p id="formDescription"></p>
+        </div>
+        <form id="dynamicForm" class="panel form-panel"></form>
+      </section>
+
+      <section class="screen" id="screen-documents" data-screen="documents">
+        <div class="page-heading">
+          <span class="eyebrow">DOKÜMANLAR</span>
+          <h1>Kontrollü kaynaklara erişim</h1>
+          <p>P.14-LS.01 tekil doğruluk kaynağıdır. Master dosyalar yalnız Drive üzerinden açılır.</p>
+        </div>
+        <div class="ssot-band">
+          <div><strong>P.14-LS.01</strong><span>Güncel Doküman Listesi</span></div>
+          <a id="ssotOpen" class="button small secondary" target="_blank" rel="noopener">SSOT’yi Aç</a>
+        </div>
+        <div class="filter-row">
+          <label class="search-box grow"><span>⌕</span><input id="docSearch" type="search" placeholder="Kod veya doküman adı"></label>
+          <select id="docTypeFilter" aria-label="Doküman türü"><option value="">Tüm türler</option></select>
+          <select id="docStatusFilter" aria-label="Durum"><option value="">Tüm durumlar</option><option value="current">Güncel</option><option value="review">Kontrol</option></select>
+        </div>
+        <div id="documentCatalog" class="document-cards"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Ana menü">
+      <button class="nav-item active" data-go="home"><span>⌂</span><small>Ana Sayfa</small></button>
+      <button class="nav-item" data-go="scan"><span>▣</span><small>Tara/Yükle</small></button>
+      <button class="nav-item" data-go="forms"><span>✎</span><small>Formlar</small></button>
+      <button class="nav-item" data-go="documents"><span>▤</span><small>Dokümanlar</small></button>
+    </nav>
+  </div>
+
+  <dialog id="settingsDialog" class="modal">
+    <form method="dialog" class="modal-card" id="settingsForm">
+      <div class="modal-header">
+        <div><span class="eyebrow">VERİ KAYNAKLARI</span><h2>Google Drive Ayarları</h2></div>
+        <button class="icon-button" value="cancel" aria-label="Kapat">×</button>
+      </div>
+      <div class="drive-target">
+        <span>Varsayılan KYS kayıt klasörü</span>
+        <strong>KHSL KYS MOBİL KAYITLAR</strong>
+        <small>Belgeler ve doldurulmuş formlar ayrı alt klasörlere kaydedilir.</small>
+      </div>
+      <fieldset>
+        <legend>Bağlantı yöntemi</legend>
+        <label class="radio-line"><input type="radio" name="driveMode" value="oauth" checked> Google OAuth (web/PWA)</label>
+        <label class="radio-line"><input type="radio" name="driveMode" value="appsScript"> Kurumsal Apps Script köprüsü (APK için önerilen)</label>
+      </fieldset>
+      <label class="field" id="oauthClientField"><span>Google OAuth Client ID</span><input id="googleClientId" placeholder="…apps.googleusercontent.com" autocomplete="off"><small>Google Cloud Console’da Drive API erişimi olan Web Client ID.</small></label>
+      <div id="appsScriptFields" hidden>
+        <label class="field"><span>Apps Script Web App URL</span><input id="appsScriptUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off"></label>
+        <label class="field"><span>API Anahtarı</span><input id="appsScriptKey" type="password" autocomplete="off"><small>Yalnız bu cihazda saklanır; kaynak koda gömülmez.</small></label>
+      </div>
+      <label class="field"><span>Belge Yükleme Klasörü</span><input id="documentFolderId" value="1S-4FCSwuWvva3tbj0Lo2WyMg8s4EEo6B" autocomplete="off"></label>
+      <label class="field"><span>Form Kayıt Klasörü</span><input id="formFolderId" value="1sIfSxMzAUN7GB4asohGq8TCovYU6zZOx" autocomplete="off"></label>
+      <div class="notice info">Uygulama Drive’a yazma başarısı almadan kaydı “yüklendi” olarak işaretlemez.</div>
+      <div class="action-row">
+        <button class="button secondary" id="driveConnectButton" type="button">Drive Yetkisi Al</button>
+        <button class="button primary" id="settingsSaveButton" value="default" type="button">Ayarları Kaydet</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="cropDialog" class="modal">
+    <div class="modal-card">
+      <div class="modal-header"><h2>Sayfayı Kırp</h2><button class="icon-button" id="cropCloseButton">×</button></div>
+      <img id="cropPreview" class="crop-preview" alt="Kırpılacak sayfa">
+      <div class="crop-grid">
+        <label class="field"><span>Üst %</span><input id="cropTop" type="number" min="0" max="40" value="0"></label>
+        <label class="field"><span>Sağ %</span><input id="cropRight" type="number" min="0" max="40" value="0"></label>
+        <label class="field"><span>Alt %</span><input id="cropBottom" type="number" min="0" max="40" value="0"></label>
+        <label class="field"><span>Sol %</span><input id="cropLeft" type="number" min="0" max="40" value="0"></label>
+      </div>
+      <button class="button primary full-button" id="cropApplyButton">Kırpmayı Uygula</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
