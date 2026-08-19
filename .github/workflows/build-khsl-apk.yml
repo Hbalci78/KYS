@@ -16,15 +16,15 @@ jobs:
     timeout-minutes: 25
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
@@ -40,14 +40,48 @@ jobs:
           grep -q 'accept="image/\*"' mobile/index.html
           grep -q 'capture="environment"' mobile/index.html
 
+      - name: Install icon tooling
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Generate verified KHSL KYS icons
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw
+
+          OUT = Path('mobile/icons')
+          OUT.mkdir(parents=True, exist_ok=True)
+          S = 512
+          im = Image.new('RGBA', (S, S), (0, 0, 0, 0))
+          d = ImageDraw.Draw(im)
+          navy = '#0e2a48'
+          teal = '#18a999'
+          white = '#ffffff'
+          gray = '#b5c4cf'
+          fold = '#dce7ee'
+
+          d.rounded_rectangle((0, 0, S-1, S-1), radius=112, fill=navy)
+          d.rounded_rectangle((116, 96, 376, 436), radius=40, fill=white)
+          d.polygon([(298, 96), (376, 174), (298, 174)], fill=fold)
+          d.line((298, 96, 298, 174, 376, 174), fill='#9fb3c3', width=12, joint='curve')
+          d.line((172, 232, 340, 232), fill=gray, width=18)
+          d.line((172, 282, 288, 282), fill=gray, width=18)
+          d.ellipse((228, 252, 400, 424), fill=teal)
+          d.line((271, 338, 300, 368, 359, 299), fill=white, width=24, joint='curve')
+
+          im.save(OUT/'kys-icon-512.png', optimize=True)
+          im.resize((192, 192), Image.Resampling.LANCZOS).save(OUT/'kys-icon-192.png', optimize=True)
+          for p in (OUT/'kys-icon-192.png', OUT/'kys-icon-512.png'):
+              check = Image.open(p)
+              check.load()
+              print(p, check.size, check.mode)
+          PY
+
       - name: Create Android project
         run: |
           rm -rf android
           npx cap add android
           npx cap sync android
-
-      - name: Install icon tooling
-        run: python -m pip install --disable-pip-version-check pillow
 
       - name: Apply KHSL launcher icons
         run: |
