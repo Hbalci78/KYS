@@ -1,0 +1,20 @@
+{
+  "name": "KHSL Kalite Yönetim Sistemi",
+  "short_name": "KHSL KYS",
+  "description": "Konya Halk Sağlığı Laboratuvarı mobil KYS belge ve form uygulaması",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f7f9",
+  "theme_color": "#0e2a48",
+  "lang": "tr-TR",
+  "icons": [
+    {"src": "icons/kys-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/kys-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Belge Tara", "short_name": "Tara", "url": "./#scan"},
+    {"name": "Form Doldur", "short_name": "Formlar", "url": "./#forms"}
+  ]
+}
