@@ -47,25 +47,10 @@ jobs:
           npx cap add android
           npx cap sync android
 
-      - name: Apply KHSL launcher icons
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          from PIL import Image
-          src = Image.open('mobile/icons/kys-icon-512.png').convert('RGBA')
-          sizes = {'mdpi':48,'hdpi':72,'xhdpi':96,'xxhdpi':144,'xxxhdpi':192}
-          for density, size in sizes.items():
-              out = Path(f'android/app/src/main/res/mipmap-{density}')
-              out.mkdir(parents=True, exist_ok=True)
-              icon = src.resize((size,size), Image.Resampling.LANCZOS)
-              icon.save(out/'ic_launcher.png')
-              icon.save(out/'ic_launcher_round.png')
-          PY
-
-      - name: Install Pillow
+      - name: Install icon tooling
         run: python -m pip install --disable-pip-version-check pillow
 
-      - name: Re-apply launcher icons
+      - name: Apply KHSL launcher icons
         run: |
           python - <<'PY'
           from pathlib import Path
