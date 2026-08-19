@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="KHSL KYS simgesi">
+  <rect width="512" height="512" rx="112" fill="#0e2a48"/>
+  <path d="M156 96h142l78 78v222c0 22-18 40-40 40H156c-22 0-40-18-40-40V136c0-22 18-40 40-40Z" fill="#ffffff"/>
+  <path d="M298 96v78h78" fill="#dce7ee"/>
+  <path d="M298 96v78h78" fill="none" stroke="#9fb3c3" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M172 232h168M172 282h116" stroke="#b5c4cf" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="314" cy="338" r="86" fill="#18a999"/>
+  <path d="m271 338 29 30 59-69" fill="none" stroke="#ffffff" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
