@@ -24,3 +24,6 @@ Chromium üzerinde GDL XLSX okuma, belge kodu eşleştirme, revizyon çakışmas
 
 ## Üretim geçiş kapısı
 Gerçek sisteme geçmeden önce sunucu tarafı kimlik doğrulama/RBAC, kurum onaylı master-indeks seçimi, tam şablon koruma, denetim izi, şifreli depolama, bağımsız periyodik yedek, kurtarma testi, Drive eşitleme çatışması ve kurum veri güvenliği onayı tamamlanmalıdır.
+
+## GitHub Pages yayımı — erişim sınırı (13.10.2026)
+GitHub Actions ile otomatik site oluşturma denenmiş, **Create Pages site failed: Resource not accessible by integration** hatası alınmıştır. Depoda `.github/workflows/deploy-nexus-v3.yml` manuel iş akışı hazırdır. Repo sahibi GitHub'da **Settings → Pages → Build and deployment → Source: GitHub Actions** seçip Pages'i etkinleştirdikten sonra **Actions → Publish KHSL NEXUS V3 to GitHub Pages → Run workflow** ile yayını başlatabilir. Yayın başarıyla tamamlandığında yeni uygulama `https://hbalci78.github.io/KYS/nexus-v3/` adresinde sunulması beklenir; site yayına geçmeden bu adres çalışıyor kabul edilmemelidir.
