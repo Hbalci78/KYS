@@ -1,0 +1,38 @@
+name: Publish KHSL NEXUS V3 to GitHub Pages
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'nexus-v3/**'
+      - '.github/workflows/deploy-nexus-v3.yml'
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: khsl-github-pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare site, preserving the existing root and mobile app
+        run: |
+          mkdir -p _site
+          rsync -a --exclude='.git/' --exclude='.github/' --exclude='_site/' --exclude='node_modules/' ./ _site/
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
