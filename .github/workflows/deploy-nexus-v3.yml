@@ -1,6 +1,12 @@
 name: Publish KHSL NEXUS V3 to GitHub Pages
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'nexus-v3/**'
+      - '.github/workflows/deploy-nexus-v3.yml'
 permissions:
   contents: read
   pages: write
